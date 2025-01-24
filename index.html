@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link to QR Code Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        input {
+            width: 90%;
+            max-width: 500px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 10px 0 20px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        #qrcode {
+            margin-top: 20px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #qrcode img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            input {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <input type="text" 
+               id="linkInput" 
+               placeholder="Enter a URL (e.g., https://google.com)" 
+               value=""
+               autocomplete="off"
+               spellcheck="false">
+        <br>
+        <button onclick="generateQR()">Generate QR Code</button>
+        <div id="qrcode"></div>
+    </div>
+
+    <script>
+        function generateQR() {
+            const link = document.getElementById('linkInput').value.trim();
+            const qrcodeContainer = document.getElementById('qrcode');
+            
+            if (!link) {
+                qrcodeContainer.innerHTML = '<p style="color: #dc3545;">Please enter a URL first</p>';
+                return;
+            }
+
+            // Clear previous QR code
+            qrcodeContainer.innerHTML = '';
+            
+            try {
+                // Generate new QR code
+                new QRCode(qrcodeContainer, {
+                    text: link,
+                    width: 280,
+                    height: 280,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                });
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                qrcodeContainer.innerHTML = '<p style="color: #dc3545;">Error generating QR code. Please try again.</p>';
+            }
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('linkInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateQR();
+            }
+        });
+
+        // Wait for the page to load before generating initial QR code
+        window.addEventListener('load', generateQR);
+    </script>
+</body>
+</html> 
+</html> 
